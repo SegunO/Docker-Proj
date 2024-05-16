@@ -51,6 +51,6 @@ jobs:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
     - run: |
         docker-compose -f ./docker-compose.yml build githubimagesegun.azurecr.io/MyHealth.Web:${{ github.sha }}
-        docker push githubimagesegun.azurecr.io/MyHealth.Web:${{ github.sha }}
+        docker push githubimagesegun.azurecr.io/MyHealth.Web
 
     
