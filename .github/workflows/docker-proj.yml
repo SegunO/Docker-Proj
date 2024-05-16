@@ -44,7 +44,7 @@ jobs:
     - name: 'Build and push image'
       uses: azure/docker-login@v1
       with:
-        login-server: 
+        login-server: githubimagesegun.azurecr.io
         username: githubimagesegun
         password: t3mS8zDs/+YEiOvXW6KzdQUe0+B+B62CWWOlatVAEX+ACRALiWFO
       env:
