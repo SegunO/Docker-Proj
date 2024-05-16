@@ -1,0 +1,41 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout 
+      uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume 
+    - uses: addnab/docker-run-action@v3
+      with: 
+        registry: docker.io
+        image: sriramdasbalaji/aspnetcore-build:1.0-2.0
+        options: -v ${{ github.workspace }}:/work -e ABC=123
+        run: |
+          echo "Running Script"
+          /bin/bash -c "dotnet restore ./MHC_ASPNetCore.sln && dotnet publish ./MHC_ASPNetCore.sln -c Release -o ./obj/Docker/publish"
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Login to Azure Container Registry
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.AZURE_USERNAME }}
+        password: ${{ secrets.AZURE_TOKEN }} 
+    -
+      env: 'DOCKER_BUILD_SOURCE='
+      name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: githubimagesegun.azurecr.io/MyHealth.Web
+        tags: v1, latest
+        registry: githubimagesegun.azurecr.io
+        dockerfile: src/MyHealth.Web/Dockerfile
