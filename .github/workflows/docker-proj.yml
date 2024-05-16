@@ -35,6 +35,8 @@ jobs:
         username: ${{ secrets.AZURE_USERNAME }}
         password: ${{ secrets.AZURE_TOKEN }}  
     - name: Build & Push Docker image with Docker Compose
+      env:
+        DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
       run: |
         docker-compose -f ./docker-compose.yml build  # Build the image using main docker-compose.yml
         docker-compose -f ./docker-compose.yml push  # Push the image using main docker-compose.yml
