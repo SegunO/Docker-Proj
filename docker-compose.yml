@@ -6,6 +6,3 @@ services:
     build:
       context: ./src/MyHealth.Web
       dockerfile: Dockerfile
-push:
-  image: githubimagesegun.azurecr.io/myhealth.web:latest  # Specify full repository and tag
-  command: docker-compose push
