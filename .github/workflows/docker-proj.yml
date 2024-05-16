@@ -31,6 +31,11 @@ jobs:
       run: |
         echo "Login to Docker Hub (Optional)"
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}  # Assuming secrets are defined
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.AZURE_USERNAME }}
+        password: ${{ secrets.AZURE_TOKEN }}
     - name: Build & Push Docker image with Docker Compose
       env:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
