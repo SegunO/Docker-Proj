@@ -47,5 +47,9 @@ jobs:
     - run: |
         docker-compose -f ./docker-compose.yml build -t githubimagesegun.azurecr.io/myhealth.web
         docker push githubimagesegun.azurecr.io/myhealth.web
+      env:
+        DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
+    - run: |
+        docker push githubimagesegun.azurecr.io/myhealth.web
 
     
