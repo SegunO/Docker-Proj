@@ -43,4 +43,4 @@ jobs:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
       run: |
         docker-compose -f ./docker-compose.yml build  # Build the image using main docker-compose.yml
-        docker-compose -f ./docker-compose.yml push  # Push the image using main docker-compose.yml
+        docker-compose -f ./docker-compose.yml push $ACR_NAME/$ACR_IMAGE:$ACR_TAG # Push the image using main docker-compose.yml
