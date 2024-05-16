@@ -43,6 +43,6 @@ jobs:
     - name: Push image to ACR
       run: |
         ACR_TOKEN=$(echo ${{ secrets.ACR_ACCESS_TOKEN }})  # Access token from secrets
-        echo "$ACR_TOKEN" | docker login --username "$AZURE_USERNAME" --password-stdin
+        echo "$ACR_TOKEN" | docker login --username $AZURE_USERNAME --password-stdin
         docker-compose push githubimagesegun.azurecr.io/MyHealth.Web
         
