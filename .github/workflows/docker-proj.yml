@@ -43,11 +43,13 @@ jobs:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
       run: |
    
-    - name: Login to ACR
+    - name: docker-compose build
       run: |
-        ACR_TOKEN=$(echo ${{ secrets.ACR_ACCESS_TOKEN }})  # Access token from secrets
-        docker login githubimagesegun.azurecr.io -u $AZURE_USERNAME -p $ACR_TOKEN
+        docker-compose -f ./docker-compose.yml build
 
     - name: Push image to ACR
       run: |
-        docker-compose push ***.azurecr.io/MyHealth.Web
+        ACR_TOKEN=$(echo ${{ secrets.ACR_ACCESS_TOKEN }})  # Access token from secrets
+        echo "$ACR_TOKEN" | docker login --username "$AZURE_USERNAME" --password-stdin
+        docker-compose push githubimagesegun.azurecr.io/MyHealth.Web
+        
