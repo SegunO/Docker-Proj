@@ -15,13 +15,13 @@ jobs:
     - name: Checkout 
       uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume 
     # Removed unnecessary step (using docker-compose run instead)
-#    - uses: addnab/docker-run-action@v3
+#    - uses: addnab/docker-run-action@v3 
 #      with: 
 #        registry: docker.io
 #        image: sriramdasbalaji/aspnetcore-build:1.0-2.0
 #        options: -v ${{ github.workspace }}:/work -e ABC=123
 #        run: |
-#          echo "Running Script"
+#          echo "Running the Script"
 #          /bin/bash -c "dotnet restore ./MHC_ASPNetCore.sln && dotnet publish ./MHC_ASPNetCore.sln -c Release -o ./obj/Docker/publish"
     - name: Run build with Docker Compose
       run: |
