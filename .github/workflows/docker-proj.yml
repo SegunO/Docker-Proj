@@ -35,14 +35,25 @@ jobs:
       env:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
       run: |
-   
-    - name: docker-compose build
-      run: |
-        docker-compose -f ./docker-compose.yml build
+  
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        auth-type: IDENTITY
+        tenant-id: 998f1477-c047-4c21-8f63-0ddeb50c1070
+        subscription-id: b61f6c78-544f-48ad-9479-7728a6292de3
+        enable-AzPSSession: true
+  
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: githubimagesegun.azurecr.io
+        username: githubimagesegun
+        password: t3mS8zDs/+YEiOvXW6KzdQUe0+B+B62CWWOlatVAEX+ACRALiWFO
+      env:
+        DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
+    - run: |
+        docker-compose -f ./docker-compose.yml build githubimagesegun.azurecr.io/MyHealth.Web:${{ github.sha }}
+        docker push githubimagesegun.azurecr.io/MyHealth.Web:${{ github.sha }}
 
-    - name: Push image to ACR
-      run: |
-        ACR_TOKEN=$(echo t3mS8zDs/+YEiOvXW6KzdQUe0+B+B62CWWOlatVAEX+ACRALiWFO)  # Access token from secrets
-        echo "$ACR_TOKEN" | docker login --username githubimagesegun --password-stdin
-        docker-compose push githubimagesegun.azurecr.io/MyHealth.Web
-        
+    
