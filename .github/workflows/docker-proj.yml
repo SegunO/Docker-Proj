@@ -44,5 +44,5 @@ jobs:
       run: |
     - name: Push image
       run: |
-        docker login ${{ secrets.ACR_Name}} -username ${{ secrets.AZURE_USERNAME }} -password ${{ secrets.AZURE_TOKEN }}  # Login to ACR
-        docker-compose push $ACR_NAME/MyHealth.Web  # Push the image using ACR details
+        docker login githubimagesegun.azurecr.io -username ${{ secrets.AZURE_USERNAME }} -password ${{ secrets.AZURE_TOKEN }}  # Login to ACR
+        docker-compose push githubimagesegun.azurecr.io/MyHealth.Web  # Push the image using ACR details
