@@ -39,10 +39,7 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        auth-type: IDENTITY
-        tenant-id: 998f1477-c047-4c21-8f63-0ddeb50c1070
-        subscription-id: b61f6c78-544f-48ad-9479-7728a6292de3
-        enable-AzPSSession: true
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
   
     - name: 'Build and push image'
       uses: azure/docker-login@v1
