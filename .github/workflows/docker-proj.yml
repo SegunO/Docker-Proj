@@ -29,6 +29,7 @@ jobs:
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
       with:
+        login-server: ${{ secrets.ACR_Name}}      
         username: ${{ secrets.AZURE_USERNAME }}
         password: ${{ secrets.AZURE_TOKEN }}
 
@@ -43,5 +44,5 @@ jobs:
       run: |
     - name: Push image
       run: |
-        docker login $ACR_NAME -username $AZURE_USERNAME -password $AZURE_TOKEN  # Login to ACR
+        docker login ${{ secrets.ACR_Name}} -username ${{ secrets.AZURE_USERNAME }} -password ${{ secrets.AZURE_TOKEN }}  # Login to ACR
         docker-compose push $ACR_NAME/MyHealth.Web  # Push the image using ACR details
