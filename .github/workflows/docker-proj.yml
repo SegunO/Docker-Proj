@@ -12,16 +12,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps: 
     - name: Checkout 
-      uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume 
-    # Removed unnecessary step (using docker-compose run instead)
-#    - uses: addnab/docker-run-action@v3 
-#      with: 
-#        registry: docker.io
-#        image: sriramdasbalaji/aspnetcore-build:1.0-2.0
-#        options: -v ${{ github.workspace }}:/work -e ABC=123
-#        run: |
-#          echo "Running a Script"
-#          /bin/bash -c "dotnet restore ./MHC_ASPNetCore.sln && dotnet publish ./MHC_ASPNetCore.sln -c Release -o ./obj/Docker/publish"
+      uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume
+      
     - name: Run build with Docker Compose
       run: |
         docker-compose -f ./docker-compose.ci.build.yml run ci-build  # Assuming ci-build service does the build
@@ -39,18 +31,18 @@ jobs:
     - name: 'Build and push image'
       uses: azure/docker-login@v1
       with:
-        login-server: githubimagesegun.azurecr.io
-        username: githubimagesegun
-        password: t3mS8zDs/+YEiOvXW6KzdQUe0+B+B62CWWOlatVAEX+ACRALiWFO
+        login-server: ${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io
+        username: your-user-name
+        password: ${{ secrets.ACR_PASSWORD }}
       env:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
     - run: |
         docker-compose -f ./docker-compose.yml build
-        docker tag myhealth.web githubimagesegun.azurecr.io/myhealth.web
+        docker tag myhealth.web ${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/myhealth.web
 
       env:
         DOCKER_BUILD_SOURCE: ''  # Set environment variable for build context
     - run: |
-        /usr/bin/docker push githubimagesegun.azurecr.io/myhealth.web
+        /usr/bin/docker push ${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io/myhealth.web
 
     
